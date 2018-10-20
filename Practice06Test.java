@@ -1,3 +1,4 @@
+package Lesson6;
 
 public class Practice06Test {
 	
@@ -22,10 +23,21 @@ public class Practice06Test {
 			stack.pop();
 		}
 	}
-	
+
 	
 	public boolean isPalindrome(String item) {
+
 		clearData();
+        item = item.toLowerCase();
+        StringBuilder builder = new StringBuilder();
+        builder.append(item);
+        for(int x=0; x<builder.length(); x++){
+            if((int)builder.charAt(x)<=96 || (int)builder.charAt(x)>=123)
+                builder.deleteCharAt(x);
+        }
+        item = builder.toString();
+
+
 		for (int i = 0; i < item.length(); i++) {
 			stack.push(item.substring(i, i+1));
 			queue.enqueue(item.substring(i, i+1));
@@ -40,7 +52,6 @@ public class Practice06Test {
 		// At this point, the stack AND the queue should be empty. But check in case...
 		if (!stack.empty() || ! queue.empty())
 			return false;
-		
 		return true;
 	}
 	
@@ -55,7 +66,7 @@ public class Practice06Test {
 			if (queue.empty())
 				grade += 5;
 			System.out.println("[+" + grade + "%] Queue and Stack declared correctly.");
-	
+
 			// First tests: is the queue correct? Is the stack correct?
 			String first = "first";
 			String second = "second";
@@ -67,7 +78,7 @@ public class Practice06Test {
 			} else {
 				System.out.println("[ XX ] One or more Queue functions appear incorrect.");
 			}
-			
+
 			stack.push(first);
 			stack.push(second);
 			if (stack.pop() == second && stack.pop() == first && stack.empty()) {
@@ -76,7 +87,7 @@ public class Practice06Test {
 			} else {
 				System.out.println("[ XX ] One or more Stack functions appear incorrect.");
 			}
-			
+
 			// Additional sanity test: place a large number of items in the stack / queue to see if it resizes.
 			for (int i = 0; i < size_of_test; i++) {
 				queue.enqueue(Integer.MAX_VALUE);
@@ -84,49 +95,49 @@ public class Practice06Test {
 			}
 			boolean emptiedEarly = false;
 			for (int i = 0; i < size_of_test; i++) {
-				if ( queue.empty() || stack.empty()) {
+				if (queue.empty() || stack.empty()) {
 					emptiedEarly = true;
 				}
 				queue.dequeue();
 				stack.pop();
 			}
-			if (queue.empty() && stack.empty() && ! emptiedEarly) {
+			if (queue.empty() && stack.empty() && !emptiedEarly) {
 				System.out.println("[+10%] Stack and Queue appear to resize correctly.");
 				grade += 10;
 			} else {
 				System.out.println("[ XX ] Stack or Queue do not resize correctly.");
 			}
-			
-			System.out.println("====================");
-	
+
+			System.out.println("===========================================");
+
 			// Second tests: does it correctly find palindromes?
 			for (String expression : expressionList) {
 				if (isPalindrome(expression)) {
 					System.out.println("[+10%] \"" + expression + "\" is a palindrome (correct).");
 					grade += 10;
-				}
-				else {
+				} else {
 					System.out.println("[ XX ] \"" + expression + "\" determined to be a non-palindrome (incorrect).");
 				}
 			}
-			
-			System.out.println("====================");
-	
+
+			System.out.println("===========================================");
+
 			// Third tests: can it correctly identify non-palindromes?
 			for (String expression : wrongList) {
 				// System.out.print(expression + " determined to be: ");
 				if (isPalindrome(expression)) {
 					System.out.println("[ XX ] \"" + expression + "\" determined to be a palindrome (incorrect).");
-				}
-				else {
+				} else {
 					System.out.println("[+10%] \"" + expression + "\" is a non-palindrome (correct)");
 					grade += 10;
 				}
 			}
 		} catch (Exception e) {
 			// Do nothing
+//			System.out.println("Nothing could be found. ");
+
 		} finally {
-			System.out.println("====================");
+			System.out.println("===========================================");
 			System.out.println("Grade for this assignment: " + grade + "%");
 		}
 	}
